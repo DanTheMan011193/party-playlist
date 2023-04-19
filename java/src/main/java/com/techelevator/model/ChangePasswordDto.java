@@ -1,7 +1,6 @@
 package com.techelevator.model;
 
 public class ChangePasswordDto {
-
     private String currentPassword;
     private String newPassword;
 

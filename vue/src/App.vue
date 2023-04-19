@@ -14,7 +14,6 @@
       </head>
     </div>
 </template>
-
 <script>
 import Navigation from './views/Navigation.vue'
 
@@ -35,7 +34,7 @@ export default {
   position:relative;
   margin: 0;
   padding: 0;
-font-family: 'Fira Sans', sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   background:url('C:\Users\Student\workspace\nlr-12-module-3-final-capstone-party-playlist\vue\src\images\background.png') no-repeat center center fixed;
   background-size:cover;
   }
@@ -66,14 +65,13 @@ header {
   align-items: center;
   height: 100px;
   width: 100%;
-  background-color: #f3d2bb;
+  background-color: #73caa0;
   text-align: center;
   top: 0px;
   z-index: 1; 
 }
 .p1{
   font-family: 'Righteous', cursive;
-
 }
 img {
   margin-right: 10px;

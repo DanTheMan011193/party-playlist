@@ -1,12 +1,9 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,16 +187,6 @@ public class JdbcPlaylistDao implements PlaylistDao {
         jdbcTemplate.update(sql, playlistId, songId);
     }
 
-//    @Override
-//    public void vetoSubmitSong(int playlistId, String songId, VetoSubmitDto vetoSubmitDto) {
-//        String sql = "UPDATE public.playlist_song " +
-//                "SET vetoed=?, submitted=? " +
-//                "WHERE playlist_id = ? AND song_id = ?;";
-//
-//        jdbcTemplate.update(sql, vetoSubmitDto.isVetoed(), vetoSubmitDto.isSubmitted(), playlistId, songId);
-//    }
-
-
     private Song mapRowToSong(SqlRowSet rs) {
         Song song = new Song();
 
@@ -256,5 +243,4 @@ public class JdbcPlaylistDao implements PlaylistDao {
 
         return genre;
     }
-
 }

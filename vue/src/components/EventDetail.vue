@@ -1,99 +1,131 @@
 <template>
-<div>
-  <div class="event-detail" >
-    <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
-      {{ isEditing ? "Cancel" : "Edit Event" }}
-    </button>
-  
-    <div class="edit" v-if="isEditing">
-      <label>Event Title</label>
-      <input type="text" v-model="event.name" />
-      <label>Event Description</label>
-      <input type="text" v-model="event.description" />
-      <label>Event Time</label>
-      <input type="time" v-model="event.time" />
-      <label>Event Date</label>
-      <input type="date" v-model="event.date" />
-      <label>Event Theme</label>
-      <input type="text" v-model="event.theme" />
-      <button class="submit-edit" @click="updateEventDetails" type="submit">
-        Submit
+  <div>
+    <div class="event-detail">
+      <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
+        {{ isEditing ? "Cancel" : "Edit Event" }}
       </button>
-    </div>
 
-    <div class="title-dj-descript">
+      <div class="edit" v-if="isEditing">
+        <label>Event Title</label>
+        <input type="text" v-model="event.name" />
+        <label>Event Description</label>
+        <input type="text" v-model="event.description" />
+        <label>Event Time</label>
+        <input type="time" v-model="event.time" />
+        <label>Event Date</label>
+        <input type="date" v-model="event.date" />
+        <label>Event Theme</label>
+        <input type="text" v-model="event.theme" />
+        <button class="submit-edit" @click="updateEventDetails" type="submit">
+          Submit
+        </button>
+      </div>
+      <div class="title-dj-descript">
         <h1>{{ event.name }}</h1>
         <p>{{ event.description }}</p>
         <h3>DJ {{ event.djUsername }}</h3>
-    </div>
-    <div class="smallerBoxes">
+      </div>
 
-    <div class="theme-date-time">
-        <div>
-            <h4>Theme: {{ event.theme }}</h4>
+      <div class="smallerBoxes">
+        <div class="theme-date-time">
+          <div>
+            <p>Theme: {{ event.theme }}</p>
             <p></p>
-            <h4>Date: {{ formattedDate }}</h4>
+            <p>Date: {{ formattedDate }}</p>
             <p></p>
-            <h4>Time: {{ formattedTime }}</h4>
+            <p>Time: {{ formattedTime }}</p>
+          </div>
         </div>
-    </div>
-
-    <div class="hosts">
-      <p v-if="event.hosts.length === 1">Your host is:</p>
-      <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
-      <div v-if="event.hosts.length">
-        <div v-for="host in event.hosts" :key="host.id">
-          <p class="host-name">{{ host.name }}</p>
-          <span style="color: #8b0000; cursor: pointer" v-on:click="deleteHost(host.name)" v-if="isDj">x</span>
+        <div class="hosts">
+          <p v-if="event.hosts.length <= 1">Your host is:</p>
+          <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
+          <div>
+            <div v-for="host in event.hosts" :key="host.id" style="display: flex; justify-content: space-evenly;">
+              <p class="host-name">{{ host.name }}</p>
+              <p
+                style="color: #8b0000; cursor: pointer"
+                v-on:click="deleteHost(host.name)"
+                v-if="isDj"
+                >x</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div> 
 
-    
-  </div>
-  
-    <div v-if="isDj">
-      <label for="host-select">Add Host:</label>
-      <select id="host-select" v-model="selectedHost">
-        <option v-for="user in availableHosts" :value="user.username" v-bind:key="user.id">
-          {{ user.username }}
-        </option>
-      </select>
-      <button @click="addHost">Add</button>
+      <div v-if="isDj">
+        <label for="host-select">Add Host:</label>
+        <select id="host-select" v-model="selectedHost">
+          <option
+            v-for="user in availableHosts"
+            :value="user.username"
+            v-bind:key="user.id"
+          >
+            {{ user.username }}
+          </option>
+        </select>
+        <button @click="addHost">Add</button>
+      </div>
     </div>
-</div>
-
-
     <div id="song-container">
-
       <div class="song-info">
-         <div class="genres" v-for="genre in event.playlist.genres" :key="genre.id">
-              <p>{{genre.name}}&nbsp;</p>
-             </div>
-      <h2>{{ event.playlist.name }}</h2>
-      <div v-for="song in event.playlist.songs" :key="song.id" >
-        <song-display :song="song">
-        <div style=" display: flex; flex-direction: column; justify-content: space-between;">
-          <div id="likes">
-            <span>{{ song.likes }}</span>
-            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id) || isDj}" />
-          </div>
-          <div id="dislikes">
-            <span>{{ song.dislikes }}</span>
-            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id) || isDj}" />
-          </div>
-          <button v-if="isHost" @click="vetoSong(song.id)">Veto</button>
+        <h2>{{ event.playlist.name }}</h2>
+        <div v-for="song in event.playlist.songs" :key="song.id">
+          <song-display :song="song">
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+              "
+            >
+              <div id="likes">
+                <span>{{ song.likes }}</span>
+                <img
+                  src="../images/thumbs-up.png"
+                  alt="Likes"
+                  width="15"
+                  height="15"
+                  class="thumb"
+                  style="margin-bottom: 10px; cursor: pointer"
+                  @click="incrementLikes(song.id)"
+                  :class="{
+                    disabled:
+                      song.clicked || clickedSongs.includes(song.id) || isDj,
+                  }"
+                />
+              </div>
+              <div id="dislikes">
+                <span>{{ song.dislikes }}</span>
+                <img
+                  src="../images/thumbs-down.png"
+                  alt="Dislikes"
+                  width="15"
+                  height="15"
+                  class="thumb"
+                  style="margin-bottom: 10px; cursor: pointer"
+                  @click="decrementLikes(song.id)"
+                  :class="{
+                    disabled:
+                      song.clicked || clickedSongs.includes(song.id) || isDj,
+                  }"
+                />
+              </div>
+              <button v-if="isHost" @click="vetoSong(song.id)">Veto</button>
+            </div>
+          </song-display>
+          <button @click="removeSong(song.id)" v-if="isDj">
+            Remove from Playlist
+          </button>
         </div>
-      </song-display>
-        <button @click="removeSong(song.id)" v-if="isDj">Remove from Playlist</button>
-      </div>
       </div>
       <div id="dj-songs">
         <h2>Available Songs</h2>
         <div v-for="song in availableSongs" :key="song.id">
           <div class="song-item">
-          <song-display :song="song"></song-display>
-          <button @click="submitSong(song.id)" v-if="isDj || isHost">Submit to Playlist</button>
+            <song-display :song="song"></song-display>
+            <button @click="submitSong(song.id)" v-if="isDj || isHost">
+              Submit to Playlist
+            </button>
           </div>
         </div>
       </div>
@@ -106,8 +138,8 @@ import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
 import authService from "../services/AuthService";
-import moment from 'moment';
-import songService from '../services/SongService';
+import moment from "moment";
+import songService from "../services/SongService";
 
 export default {
   name: "event-detail",
@@ -125,16 +157,16 @@ export default {
       selectedHost: "",
       users: [],
       availableSongs: [],
-      playlist: []
+      playlist: [],
     };
   },
   computed: {
     formattedTime() {
-    return moment(this.event.time, "HH:mm").format("h:mm A");
-  },
-  formattedDate(){
-     return moment(this.event.date).format('MMMM Do, YYYY');
-  },
+      return moment(this.event.time, "HH:mm").format("h:mm A");
+    },
+    formattedDate() {
+      return moment(this.event.date).format("MMMM Do, YYYY");
+    },
     isDj() {
       return this.$store.state.user.username === this.event.djUsername;
     },
@@ -161,22 +193,27 @@ export default {
   },
   methods: {
     getAvailableSongs() {
-      songService.getSongs(this.event.djUsername).then(response => {
+      songService.getSongs(this.event.djUsername).then((response) => {
         if (response.status === 200) {
-          this.availableSongs = response.data.filter(song => {
-            if (this.event.playlist.songs.filter(a => a.id === song.id).length === 0) {
+          this.availableSongs = response.data.filter((song) => {
+            if (
+              this.event.playlist.songs.filter((a) => a.id === song.id)
+                .length === 0
+            ) {
               return song;
             }
           });
         }
-      })
+      });
     },
     vetoSong(songId) {
-        playlistService.vetoSong(this.event.playlist.playlistId, songId).then(response => {
+      playlistService
+        .vetoSong(this.event.playlist.playlistId, songId)
+        .then((response) => {
           if (response.status === 200) {
             this.getEvent();
           }
-        })
+        });
     },
     getEvent(callBack) {
       const eventId = parseInt(this.$route.params.id);
@@ -242,21 +279,24 @@ export default {
       });
     },
     submitSong(songId) {
-      playlistService.addSongToPlaylist(this.event.playlist.playlistId, songId).then(response => {
-         if (response.status === 200) {
+      playlistService
+        .addSongToPlaylist(this.event.playlist.playlistId, songId)
+        .then((response) => {
+          if (response.status === 200) {
             alert("Song successfully added");
             this.getEvent(this.getAvailableSongs);
           }
-      })
-  },
-  removeSong(songId) {
-      playlistService.removeSongFromPlaylist(this.event.playlist.playlistId, songId).then(response => {
-         if (response.status === 204) {
+        });
+    },
+    removeSong(songId) {
+      playlistService
+        .removeSongFromPlaylist(this.event.playlist.playlistId, songId)
+        .then((response) => {
+          if (response.status === 204) {
             alert("Song successfully removed");
             this.getEvent(this.getAvailableSongs);
           }
-      })
-
+        });
     },
   },
   created() {
@@ -267,16 +307,14 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  text-align: center;
+}
 .smallerBoxes {
   display: flex;
   flex-direction: row;
-  min-width: 20%;
-  justify-content: space-between;
-}
-.event-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-evenly;
+  font-size: 1.1rem;
 }
 .event-image {
   width: 100%;
@@ -285,44 +323,30 @@ export default {
   margin-bottom: 1rem;
 }
 .event-details {
-  display: flex;
+  display: grid;
   flex-direction: column;
   align-items: center;
   margin-bottom: 1rem;
-}
-
-.event-details button:hover {
-  background-color: #f1d689;
 }
 #song-container {
   display: flex;
   justify-content: space-evenly;
 }
 .genres {
-  display: flex;
-  justify-content: space-evenly;
+  display: inline-block;
+  min-width: 100px;
+  font-size: 1.25rem;
+  text-align: center;
 }
 .hosts {
-  justify-content: space-around;
-  max-width: 150px;
-  background-color: #b99f9f;
+  background-color: #CCC6C4;
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
 }
 .theme-date-time {
-
   justify-content: space-around;
-  
-  background-color: #b99f9f;
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-#title-dj-descript {
-  justify-content: space-around;
-  
-  background-color: #b99f9f;
+  background-color: #CCC6C4;
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
@@ -332,7 +356,6 @@ export default {
   font-size: 18px;
   font-weight: bold;
 }
-
 
 .event-detail {
   text-align: center;
@@ -368,6 +391,7 @@ export default {
 
 .edit {
   display: grid;
+  text-align: center;
 }
 
 .edit-cancel {
@@ -387,13 +411,18 @@ export default {
   padding: 3px 6px 3px 6px;
   margin-top: 10px;
   font-size: 16px;
-  background-color: #f3d2bb;
-  color: white;
+  background-color: #ada09b;
+  color: black;
   border: none;
+  margin-bottom: 20px;
 }
 
 .submit-edit:hover {
-  background-color: #ebaa7c;
+  background-color: #bbb5b3;
+}
+
+.edit-cancel:hover {
+  background-color: #bbb5b3;
 }
 
 label {
@@ -411,9 +440,10 @@ input {
 }
 
 .title-dj-descript {
-  background-color: #db9a9a;
+  background-color: #73caa0;
   padding: 20px;
   margin-bottom: 20px;
+  border-radius: 5px;
 }
 .title-dj-descript h1 {
   font-size: 36px;
@@ -435,13 +465,12 @@ input {
 .edit-cancel {
   font-size: 16px;
   padding: 5px 10px;
-  
-  background-color: #f3d2bb;
+  margin-bottom: 10px;
+  background-color: #ada09b;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
-
 
 div[for="host-select"] {
   font-size: 16px;

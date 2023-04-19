@@ -92,14 +92,6 @@ public class Song {
         this.dislikes = dislikes;
     }
 
-//    public String getPreview_url() {
-//        return preview;
-//    }
-//
-//    public void setPreview_url(String preview_url) {
-//        this.preview = preview_url;
-//    }
-
     public String getSpotifyUri() {
         return spotifyUri;
     }

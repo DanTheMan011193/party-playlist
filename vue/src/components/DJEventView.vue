@@ -134,7 +134,6 @@ import spotifyService from "../services/SpotifyService.js";
 import songService from "../services/SongService";
 import SongDisplay from "@/components/SongDisplay.vue";
 
-
 export default {
   name: "my-events",
   components: {

@@ -13,12 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import com.techelevator.dao.UserDao;
 import com.techelevator.security.jwt.JWTFilter;
 import com.techelevator.security.jwt.TokenProvider;
-
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -67,7 +64,5 @@ public class AuthenticationController {
     public List<User> getAllUsers() {
         return userDao.findAll();
     }
-
-
 }
 

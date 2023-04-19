@@ -1,6 +1,6 @@
 <template>
-
-<div>
+<body>
+  <div>
     <div>
       <input type="text" v-model="searchText" placeholder="Search Events" />
       <br /><br />
@@ -26,8 +26,7 @@
       </table>
     </div>
   </div>
-
-
+</body>
 </template>
 
 <script>
@@ -52,7 +51,6 @@ export default {
               ...event,
               formattedDate: moment(event.date).format('MMMM Do, YYYY'),
               dj: event.djUsername,
-            //   host: event.host,
           }
       });
     },
@@ -94,11 +92,13 @@ export default {
 
 .event-list {
   margin-top: 20px;
+  margin-bottom: 50px;
 }
 
 table {
   border-collapse: collapse;
   width: 100%;
+  height: 100%;
 }
 
 th,
@@ -110,25 +110,25 @@ td {
 }
 
 th {
-  background-color: #609461;
-  color: white;
+  background-color: #CCC6C4;
+  color: black;
+  font-size: 20px;
 }
 .event-title {
   font-size: 18px;
-  font-weight: bold;
 }
 tr:link {
     text-decoration: none;
 }
 tr:hover {
-  background-color: #f5f5f5;
+  background-color: #e7e1e1;
   cursor: pointer;
   text-decoration: none;
 }
 
 .event-link {
     text-decoration: none;
+    color: black !important;
 }
-
 
 </style>

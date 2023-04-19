@@ -255,7 +255,6 @@ public class JdbcEventDao implements EventDao {
             playlist.setGenres(genres);
 
             return playlist;
-
     }
 
     private Event mapRowToEvent(SqlRowSet rs) {

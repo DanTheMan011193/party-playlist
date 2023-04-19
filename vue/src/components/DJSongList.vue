@@ -15,7 +15,6 @@
         </song-display>
     </div>
   
-  
     <div class="song-info">
         <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
             <div style="display: flex; flex-direction: column; justify-content: space-between;">
@@ -43,7 +42,6 @@ export default {
   components: {
     SongDisplay,
   },
-
 computed: {
     isDJ() {
       return this.$store.state.user.username === this.event.djUsername;

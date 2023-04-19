@@ -8,14 +8,10 @@
 
 <script>
 import DjEvent from "../components/DJEventView.vue";
- import events from "../components/EventList.vue";
-
-
-
+import events from "../components/EventList.vue";
 
 export default {
   name: "MyEvents",
-
   components: {
      events,
     DjEvent,
@@ -25,10 +21,6 @@ export default {
       songs: [],
     };
   },
-  
-methods: {
-}
-  
 };
 </script>
 

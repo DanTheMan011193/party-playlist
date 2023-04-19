@@ -8,11 +8,9 @@ export default {
     getToken() {
         return axios.get('/spotify/token');
     },
-
     setAccessToken(token) {
         spotifyApi.setAccessToken(token);
     },
-
     searchTracks(params) {
         return spotifyApi.searchTracks(params, {limit: 10, offset: 0});
     }

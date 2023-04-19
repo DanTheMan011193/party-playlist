@@ -1,11 +1,9 @@
 import axios from 'axios';
 
 export default {
-
   getAllEvents() {
     return axios.get('/events');
   },
-  
   getEventById(eventId) {
     return axios.get(`/events/${eventId}`);
   },
@@ -27,6 +25,5 @@ export default {
   saveLikes(song) {
     return axios.put(`/events/playlists/songs/${song.song_id}`, { votes: song.likes });
   },
-
 }
 

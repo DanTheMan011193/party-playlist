@@ -19,8 +19,7 @@
             <ul>
                 <li v-for="event in searchResults" :key="event.event_id">
                     {{ event.description }} - {{ event.date_time }} </li>
-
-                    </ul>
+            </ul>
         </div>
     </div>
 </template>

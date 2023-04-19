@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export default {
-
     getPlaylistById(playlistId) {
         return axios.get(`/playlists/${playlistId}`)
     },
