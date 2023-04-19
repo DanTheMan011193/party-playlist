@@ -1,5 +1,6 @@
 <template>
   <div class="about-us">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
     <h1 class="about-us-heading">About Us</h1>
     <div class="about-us-content">
       <div class="about-us-banner">
@@ -24,7 +25,7 @@ name: 'AboutUs',
 </script>
 
 <style scoped>
-
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap');
 .about-us {
   max-width: 1200px;
     margin: 0 auto;
@@ -45,6 +46,7 @@ name: 'AboutUs',
   gap: 30px;
 }
 .about-us-text {
+ font-family: 'Fira Sans', sans-serif;
   max-width: 800px;
   width: 100%;
   text-align: center;

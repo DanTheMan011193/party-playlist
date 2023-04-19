@@ -1,8 +1,10 @@
 <template>
-  <div class="event-detail">
+<div>
+  <div class="event-detail" >
     <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
       {{ isEditing ? "Cancel" : "Edit Event" }}
     </button>
+  
     <div class="edit" v-if="isEditing">
       <label>Event Title</label>
       <input type="text" v-model="event.name" />
@@ -18,17 +20,25 @@
         Submit
       </button>
     </div>
-    <h1>{{ event.name }}</h1>
-    <p>{{ event.description }}</p>
-    <h3>DJ {{ event.djUsername }}</h3>
-    <div id="theme-date-time">
-      <h4>Theme: {{ event.theme }}</h4>
-      <p></p>
-      <h4>Date: {{ formattedDate }}</h4>
-      <p></p>
-      <h4>Time: {{ formattedTime }}</h4>
+
+    <div class="title-dj-descript">
+        <h1>{{ event.name }}</h1>
+        <p>{{ event.description }}</p>
+        <h3>DJ {{ event.djUsername }}</h3>
     </div>
-    <div>
+    <div class="smallerBoxes">
+
+    <div class="theme-date-time">
+        <div>
+            <h4>Theme: {{ event.theme }}</h4>
+            <p></p>
+            <h4>Date: {{ formattedDate }}</h4>
+            <p></p>
+            <h4>Time: {{ formattedTime }}</h4>
+        </div>
+    </div>
+
+    <div class="hosts">
       <p v-if="event.hosts.length === 1">Your host is:</p>
       <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
       <div v-if="event.hosts.length">
@@ -37,7 +47,11 @@
           <span style="color: #8b0000; cursor: pointer" v-on:click="deleteHost(host.name)" v-if="isDj">x</span>
         </div>
       </div>
-    </div>
+    </div> 
+
+    
+  </div>
+  
     <div v-if="isDj">
       <label for="host-select">Add Host:</label>
       <select id="host-select" v-model="selectedHost">
@@ -47,10 +61,17 @@
       </select>
       <button @click="addHost">Add</button>
     </div>
+</div>
+
+
     <div id="song-container">
+
       <div class="song-info">
+         <div class="genres" v-for="genre in event.playlist.genres" :key="genre.id">
+              <p>{{genre.name}}&nbsp;</p>
+             </div>
       <h2>{{ event.playlist.name }}</h2>
-      <div v-for="song in event.playlist.songs" :key="song.id">
+      <div v-for="song in event.playlist.songs" :key="song.id" >
         <song-display :song="song">
         <div style=" display: flex; flex-direction: column; justify-content: space-between;">
           <div id="likes">
@@ -246,48 +267,109 @@ export default {
 </script>
 
 <style scoped>
+.smallerBoxes {
+  display: flex;
+  flex-direction: row;
+  min-width: 20%;
+  justify-content: space-between;
+}
+.event-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.event-image {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+.event-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.event-details button:hover {
+  background-color: #f1d689;
+}
 #song-container {
   display: flex;
   justify-content: space-evenly;
 }
-#theme-date-time {
+.genres {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+}
+.hosts {
   justify-content: space-around;
+  max-width: 150px;
+  background-color: #b99f9f;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
-.host-name {
-  display: inline-block;
-  margin-right: 10px;
+.theme-date-time {
+
+  justify-content: space-around;
+  
+  background-color: #b99f9f;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
+#title-dj-descript {
+  justify-content: space-around;
+  
+  background-color: #b99f9f;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+#theme-date-time h4 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
 .event-detail {
   text-align: center;
   margin: 150px;
 }
+
 .disabled {
   opacity: 0.2;
   cursor: not-allowed;
 }
+
 .disabled img {
   filter: grayscale(1);
 }
+
 #likes {
   display: flex;
   font-size: 13px;
   justify-content: space-evenly;
 }
+
 #dislikes {
   display: flex;
   font-size: 13px;
   justify-content: space-between;
 }
+
 .thumb {
   display: inline-block;
   margin-right: 5px;
   margin-left: 5px;
 }
+
 .edit {
   display: grid;
 }
+
 .edit-cancel {
   font-family: arial;
   font-weight: bold;
@@ -296,6 +378,7 @@ export default {
   padding: 3px 6px 3px 6px;
   font-size: 16px;
 }
+
 .submit-edit {
   font-family: arial;
   font-weight: bold;
@@ -304,14 +387,73 @@ export default {
   padding: 3px 6px 3px 6px;
   margin-top: 10px;
   font-size: 16px;
+  background-color: #f3d2bb;
+  color: white;
+  border: none;
 }
+
+.submit-edit:hover {
+  background-color: #ebaa7c;
+}
+
 label {
   font-family: arial;
   margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
 }
+
 input {
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.title-dj-descript {
+  background-color: #db9a9a;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.title-dj-descript h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.title-dj-descript h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+#host-select {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.edit-cancel {
+  font-size: 16px;
+  padding: 5px 10px;
+  
+  background-color: #f3d2bb;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+div[for="host-select"] {
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+div[for="host-select"] + #host-select {
+  margin-right: 10px;
+}
+
+div[for="host-select"] + #host-select + button {
+  margin-top: 5px;
 }
 </style>

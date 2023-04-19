@@ -27,15 +27,20 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap');
 #MainView {
   display: flex;
   flex-grow: 2;
-  position: relative;
-  font-family: sans-serif;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(#e0fcd8, #fcfdfb);}
+  position:relative;
+  margin: 0;
+  padding: 0;
+font-family: 'Fira Sans', sans-serif;
+  background:url('C:\Users\Student\workspace\nlr-12-module-3-final-capstone-party-playlist\vue\src\images\background.png') no-repeat center center fixed;
+  background-size:cover;
+  }
 .p1{
+  font-family: 'Righteous', cursive;
   display:flex;
   position: absolute;
   text-align: center;
@@ -67,8 +72,8 @@ header {
   z-index: 1; 
 }
 .p1{
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size:x-large;
+  font-family: 'Righteous', cursive;
+
 }
 img {
   margin-right: 10px;

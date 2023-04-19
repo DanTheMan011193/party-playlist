@@ -37,7 +37,6 @@ public class EventController {
     public Event createEvent(@RequestBody Event event, Principal principal) {
         event.setId(0);
         event.getPlaylist().setPlaylistId(0);
-        event.getPlaylist().setGenres(new ArrayList<>());
         event.getPlaylist().setSongs(new ArrayList<>());
         if (event.getHosts() == null) {
             event.setHosts(new ArrayList<>());

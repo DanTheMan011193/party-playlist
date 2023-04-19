@@ -147,15 +147,10 @@ public class JdbcPlaylistDao implements PlaylistDao {
 
     @Override
     public void deleteSongFromPlaylist(int playlistId, String songId, int userId) {
-        if (verifyUser(userId, playlistId)) {
             String sql = "DELETE FROM public.playlist_song\n" +
                     "\tWHERE playlist_id = ? AND song_id = ?";
 
             jdbcTemplate.update(sql, playlistId, songId);
-        } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "You are unauthorized to modify this playlist");
-        }
     }
 
     @Override
@@ -176,16 +171,11 @@ public class JdbcPlaylistDao implements PlaylistDao {
 
     @Override
     public void updatePlaylist(int playlistId, String name, String description, int userId) {
-        if (verifyUser(userId, playlistId)) {
             String sql = "UPDATE public.playlists " +
                     "SET name=?, description=? " +
                     "WHERE playlist_id=?";
 
             jdbcTemplate.update(sql, name, description, playlistId);
-        } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "You are unauthorized to modify this playlist");
-        }
     }
 
     @Override
@@ -267,12 +257,4 @@ public class JdbcPlaylistDao implements PlaylistDao {
         return genre;
     }
 
-
-    private boolean verifyUser(int userId, int playlistId) {
-        String sql = "SELECT events.playlist_id " +
-                "FROM events " +
-                "WHERE dj_id = ?";
-        int id = jdbcTemplate.queryForObject(sql, Integer.class, userId);
-        return id == playlistId;
-    }
 }
